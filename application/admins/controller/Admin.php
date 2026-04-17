@@ -7,7 +7,6 @@
    * 管理员管理
    */
   class Admin extends BaseAdmin{
-    protected $db;
 
     // 管理员列表
     public function index(){
