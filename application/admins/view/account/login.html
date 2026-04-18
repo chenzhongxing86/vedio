@@ -65,15 +65,15 @@
             var pwd = $.trim($('#password').val());
             var verifycode = $.trim($('#verifycode').val());
             if(username == ''){
-                layer.alert('请输入用户名',{icon:2});
+                layer.alert('请输入用户名',{'icon':2});
                 return;
             }
             if(pwd == ''){
-                layer.alert('请输入密码',{icon:2});
+                layer.alert('请输入密码',{'icon':2});
                 return;
             }
             if(verifycode == ''){
-                layer.alert('请输入验证码',{icon:2});
+                layer.alert('请输入验证码',{'icon':2});
                 return;
             }
             $.post('/admins.php/admins/Account/doLogin',{'username':username,'pwd':pwd,
@@ -81,7 +81,7 @@
             },function(res){
                 if(res.code > 0){
                     reloadImg();
-                    layer.alert(res.msg,{icon:2});
+                    layer.alert(res.msg,{'icon':2});
                 }else{
                     layer.msg(res.msg);
                     setTimeout(function(){

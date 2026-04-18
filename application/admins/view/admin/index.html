@@ -68,13 +68,14 @@
 		// 删除
 		function del(id){
 		   layer.confirm('确定要删除吗？', {
+			    icon:3,
 				btn: ['确定', '取消'] //按钮
 			  }, function(){
 				 $.post("/admins.php/admins/admin/delete",{'id':id},function(res){
 					 if(res.code > 0){
-					     layer.alert(res.msg,{icon:2});
+					     layer.alert(res.msg,{'icon':2});
 					 }else{
-					     layer.msg(res.msg);
+					     layer.msg(res.msg,{'icon':1});
 					     setTimeout(function(){parent.window.location.reload();},1000);
 					 }
 				 },'json');

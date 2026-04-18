@@ -68,27 +68,26 @@
             var gid = $.trim($('select[name="gid"]').val());
             var truename = $.trim($('input[name="truename"]').val());
             if(username == ''){
-                layer.alert('请输入用户名', {icon:2});
+                layer.alert('请输入用户名', {'icon':2});
                 return;
             }
             if(isNaN(id) && pwd == ''){
-                layer.alert('请输入密码', {icon:2});
+                layer.alert('请输入密码', {'icon':2});
                 return;
             }
             if(gid == 0){
-                layer.alert('请输入角色', {icon:2});
+                layer.alert('请输入角色', {'icon':2});
                 return;
             }
             if(truename == ''){
-                layer.alert('请输入姓名', {icon:2});
+                layer.alert('请输入姓名', {'icon':2});
                 return;
             }
             $.post('/admins.php/admins/Admin/save',$('form').serialize(),function(res){
-				console.log(res)
                 if(res.code > 0){
-                    layer.alert(res.msg,{icon:2});
+                    layer.alert(res.msg,{'icon':2});
                 }else{
-                    layer.msg(res.msg);
+                    layer.msg(res.msg,{'icon':1});
                     setTimeout(function(){parent.window.location.reload();},1000);
                 }
             },'json');
