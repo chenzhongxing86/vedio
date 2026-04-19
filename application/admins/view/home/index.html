@@ -20,33 +20,26 @@
 <body>
     <!--header-->
     <div class="header">
-        <span class="title">后台管理系统</span>
-        <span class="userinfo">admin【系统管理员】<span><a href="javascript:;">退出</a></span></span>
+        <span class="title"><span style="font-size:12px;">{$site.values}</span>-后台管理系统</span>
+        <span class="userinfo">{$admin.username}【{$role.title}】<span><a href="javascript:;"  onclick="logout()">退出</a></span></span>
     </div>
    <!--菜单-->
    <div class="menu" id="menu">
       <div class="layui-collapse"  lay-accordion>
+		{volist name="menus" id="vo"}
         <div class="layui-colla-item">
-            <h2 class="layui-colla-title">管理员管理</h2>
-            <div class="layui-colla-content layui-show">
+            <h2 class="layui-colla-title">{$vo.title}</h2>
+            <div class="layui-colla-content">
+				<?php if(isset($vo['children']) && $vo['children']){?>
                 <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                    <li class="layui-nav-item"><a href="javascript:;" onclick="menuFire(this)" src="/admins.php/admins/Admin/index">管理员列表</a></li>
+					{volist name="vo.children" id="cvo"}
+                    <li class="layui-nav-item"><a href="javascript:;" onclick="menuFire(this)" src="/admins.php/admins/{$cvo.controller}/{$cvo.method}">{$cvo.title}</a></li>
+					{/volist}
                 </ul>
+				<?php }?>
             </div>
         </div>
-        <div class="layui-colla-item">
-            <h2 class="layui-colla-title">权限管理</h2>
-            <div class="layui-colla-content">
-				<ul class="layui-nav layui-nav-tree" lay-filter="test">
-					<li class="layui-nav-item"><a href="javascript:;" onclick="menuFire(this)" src="/admins.php/admins/Menu/index">菜单管理</a></li>
-					<li class="layui-nav-item"><a href="javascript:;" onclick="menuFire(this)" src="/admins.php/admins/Roles/index">角色管理</a></li>
-				</ul>
-			</div>
-        </div>
-        <div class="layui-colla-item">
-            <h2 class="layui-colla-title">系统设置</h2>
-            <div class="layui-colla-content">内容区域</div>
-        </div>
+		{/volist}
    </div>
 </div>
 <!--主操作界面-->
@@ -54,8 +47,9 @@
     <iframe src="/admins.php/admins/Home/welcome" onload="resetMainHeight(this)" style="width:100%;height: 100%;" frameborder="0" scrolling="0"></iframe>
 </div>
 <script>
-    layui.use('element', function(){
+    layui.use(['element','layer'], function(){
         var element = layui.element;
+		layer = layui.layer;
         $ = layui.jquery;
 
         resetMenuHeight();
@@ -80,5 +74,22 @@
         // 设置iframe的src
         $('iframe').attr('src',src);
     }
+	
+	// 退出
+	function logout(){
+		layer.confirm("确定要退出吗？",{
+			btn:["确定","取消"]
+		},function(){
+			$.get('/admins.php/admins/account/logout',function(res){
+				console.log(res);
+				if(res.code > 0){
+					layer.alert(res.msg,{'icon':2});
+				}else{
+					layer.msg(res.msg,{"icon":1});
+					setTimeout(function(){window.location.href="/admins.php/admins/account/login"},1000);
+				}
+			},'json');
+		});
+	}
 </script>
 </body>

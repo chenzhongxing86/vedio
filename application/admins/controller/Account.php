@@ -50,5 +50,10 @@
       session('admin',$admin);
       exit(json_encode(array('code'=>0,'msg'=>'登录成功')));
     }
+	
+	public function logout(){
+		session('admin',null);
+		exit(json_encode(array('code'=>0,'msg'=>'退出成功')));
+	}
   }
 ?>
